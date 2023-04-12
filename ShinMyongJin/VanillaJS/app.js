@@ -20,11 +20,19 @@
 
 // console.log(toBuy[2]);
 
-const player = {
-  name: 'MJ',
-  points: 10,
-  fat: true,
-};
-console.log(player);
-player.points = player.points + 15;
-console.log(player.points);
+// const player = {
+//   name: 'MJ',
+//   points: 10,
+//   fat: true,
+// };
+// console.log(player);
+// player.points = player.points + 15;
+// console.log(player.points);
+
+function sayHello() {
+  console.log('Hello my name is C');
+}
+
+sayHello('MJ');
+sayHello('dal');
+sayHello('lynn');
