@@ -16,6 +16,15 @@
 
 // console.log(dayOfWeek);
 
-const toBuy = ['potato', 'tomato', 'pizza'];
+// const toBuy = ['potato', 'tomato', 'pizza'];
 
-console.log(toBuy[2]);
+// console.log(toBuy[2]);
+
+const player = {
+  name: 'MJ',
+  points: 10,
+  fat: true,
+};
+console.log(player);
+player.points = player.points + 15;
+console.log(player.points);
