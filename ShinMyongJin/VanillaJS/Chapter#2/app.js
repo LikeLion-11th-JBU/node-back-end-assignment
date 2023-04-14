@@ -58,31 +58,35 @@
 // player.sayHello('lynn');
 // player.sayHello('MJ');
 
-// function plus(a, b) {
-//   console.log(a + b);
-// }
-
-// plus(5, 5);
-
 const calculator = {
-  add: function (a, b) {
-    console.log(a + b);
+  plus: function (a, b) {
+    return a + b;
   },
   minus: function (a, b) {
-    console.log(a - b);
+    return a - b;
+  },
+  times: function (a, b) {
+    return a * b;
   },
   divide: function (a, b) {
-    console.log(a / b);
-  },
-  multi: function (a, b) {
-    console.log(a * b);
+    return a / b;
   },
   power: function (a, b) {
-    console.log(a ** b);
+    return a ** b;
   },
 };
-calculator.add(3, 3);
-calculator.minus(8, 2);
-calculator.divide(6, 2);
-calculator.multi(2, 3);
-calculator.power(4, 5);
+
+const plusResult = calculator.plus(2, 3);
+const minusResult = calculator.minus(plusResult, 10);
+const timesResult = calculator.times(10, minusResult);
+const divideResult = calculator.divide(timesResult, plusResult);
+const powerResult = calculator.power(divideResult, minusResult);
+
+// const age = 96;
+// function calculateKrAge(ageOfForeigner) {
+//   return ageOfForeigner + 1;
+// }
+
+// const krAge = calculateKrAge(age);
+
+// console.log(krAge);
