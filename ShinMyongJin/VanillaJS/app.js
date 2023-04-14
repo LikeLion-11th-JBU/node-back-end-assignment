@@ -29,10 +29,37 @@
 // player.points = player.points + 15;
 // console.log(player.points);
 
-function sayHello() {
-  console.log('Hello my name is C');
+// function sayHello(nameOfPerson, age) {
+//   console.log('Hello my name is ' + nameOfPerson + "I'm " + age);
+// }
+
+// sayHello('MJ', 10);
+// sayHello('dal', 23);
+// sayHello('lynn', 21);
+
+// function plus(firstNumber, secondNumber) {
+//   console.log(firstNumber + secondNumber);
+// }
+// function divide(a, b) {
+//   console.log(a / b);
+// }
+// plus(8, 60);
+// divide(98, 20);
+
+//function 에서 정보를 보내는 법
+// const player = {
+//   name: 'MJ',
+//   sayHello: function (otherPersonsName) {
+//     console.log('hello! ' + otherPersonsName + ' nice to meet you');
+//   },
+// };
+
+// console.log(player.name);
+// player.sayHello('lynn');
+// player.sayHello('MJ');
+
+function plus(a, b) {
+  console.log(a + b);
 }
 
-sayHello('MJ');
-sayHello('dal');
-sayHello('lynn');
+plus(5, 5);
