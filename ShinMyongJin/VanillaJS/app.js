@@ -58,8 +58,31 @@
 // player.sayHello('lynn');
 // player.sayHello('MJ');
 
-function plus(a, b) {
-  console.log(a + b);
-}
+// function plus(a, b) {
+//   console.log(a + b);
+// }
 
-plus(5, 5);
+// plus(5, 5);
+
+const calculator = {
+  add: function (a, b) {
+    console.log(a + b);
+  },
+  minus: function (a, b) {
+    console.log(a - b);
+  },
+  divide: function (a, b) {
+    console.log(a / b);
+  },
+  multi: function (a, b) {
+    console.log(a * b);
+  },
+  power: function (a, b) {
+    console.log(a ** b);
+  },
+};
+calculator.add(3, 3);
+calculator.minus(8, 2);
+calculator.divide(6, 2);
+calculator.multi(2, 3);
+calculator.power(4, 5);
