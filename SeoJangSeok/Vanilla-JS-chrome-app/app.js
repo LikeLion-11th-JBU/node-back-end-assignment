@@ -1,21 +1,18 @@
-/* Object */
-// object
-const player = {
-  name: 'Jang Seok',
-  points: 10,
-  fat: true,
+/* function */
+
+// function이 없을 때
+// console.log("Hello my name is Nico");
+// console.log("Hello my name is Dal");
+// console.log("Hello my name is Shigatsu");
+// console.log("Hello my name is Flynn");
+// 바뀌어야 할 부분은 끝의 이름들이다.
+
+function sayHello() {
+  //실행하게 될 코드 블록
+  console.log('Hello!')
 }
-// object 접근 방법
-console.log(player) // == {name: 'Jang Seok', points: 10, fat: true}
-console.log(player.name) // == Jang Seok
-console.log(player['name']) // == Jang Seok
-
-// Object update
-player.fat = false
-console.log(player) // == {name: 'Jang Seok', points: 10, fat: false}
-player.points = player.points + 15
-console.log(player.points) // == 25
-
-// Object add
-player.lastName = 'potato'
-console.log(player) // == {name: 'Jang Seok', points: 10, fat: false, lastName: 'potato'}
+// sayHello라는 function 실행
+sayHello() // Hello!
+sayHello() // Hello!
+sayHello() // Hello!
+sayHello() // Hello!
