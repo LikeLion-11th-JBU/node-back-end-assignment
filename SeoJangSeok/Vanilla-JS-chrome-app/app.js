@@ -5,7 +5,7 @@
 //const age = prompt('How old are you?') // prompt() : 사용자에게 창을 띄울 수 있도록 한다.
 //console.log(age, parseInt(age))
 
-//const age = parseInt(prompt('How old are you?')) // 함수는 안에서 바깥으로 실행된다.
+const age = parseInt(prompt('How old are you?')) // 함수는 안에서 바깥으로 실행된다.
 //console.log(isNaN(age))
 
 /* true || true == true
@@ -26,6 +26,8 @@ if (isNaN(age) || age < 0) {
   console.log('You can drink')
 } else if (age > 50 && age <= 80) {
   console.log('You should exercise')
+} else if (age === 100) {
+  console.log('wow you are wise')
 } else if (age > 80) {
   console.log('You can do whatever you want')
 }
