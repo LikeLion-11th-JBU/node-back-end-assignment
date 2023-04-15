@@ -1,31 +1,32 @@
-/* function */
+// a + b
+// a - b
+// a / b
+// a ** b
 
-/* function sayHello(nameOfPerson, age) {
-  console.log('Hello my name is ' + nameOfPerson + "and I'm " + age) // Hello my name is nicoand I'm 10 \n Hello my name is daland I'm 23 \n Hello my name is lynnand I'm 21
-}
-
-sayHello('nico', 10)
-sayHello('dal', 23)
-sayHello('lynn', 21)
-*/
-
-// 계산기
-/* function plus(firstNumber, secondNumber) {
-  console.log(firstNumber + secondNumber) // plus()일때, NaN : Not a Number(숫자가 아님) // 68
-}
-function divide(a, b) {
-  console.log(a / b) // 4.9
-}
-plus(8, 60)
-divide(98, 20)
-*/
-
-const player = {
-  name: 'nico',
-  sayHello: function (otherPersonName) {
-    console.log('hello ' + otherPersonName + ' nice to meet you!') //hello nico nice to meet you! \n hello lynn nice to meet you!
+/* 계산기 */
+const calculator = {
+  add: function (a, b) {
+    console.log(a + b)
+  },
+  minus: function (a, b) {
+    console.log(a - b)
+  },
+  div: function (a, b) {
+    console.log(a / b)
+  },
+  powerOf: function (a, b) {
+    console.log(a ** b)
+  },
+  multi: function (a, b) {
+    console.log(a * b)
+  },
+  last: function (a, b) {
+    console.log(a % b)
   },
 }
-
-player.sayHello('nico')
-player.sayHello('lynn')
+calculator.add(10, 5)
+calculator.minus(9, 4)
+calculator.div(8, 4)
+calculator.powerOf(2, 10)
+calculator.multi(10, 10)
+calculator.last(5, 2)
