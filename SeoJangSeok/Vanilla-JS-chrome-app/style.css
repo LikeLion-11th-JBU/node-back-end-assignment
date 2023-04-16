@@ -2,3 +2,16 @@
 body {
   background-color: beige;
 }
+/* h1 기본색 설정 */
+h1 {
+  color: cornflowerblue;
+  transition: color 0.5s ease-in-out;
+}
+/* clicked class */
+.clicked {
+  color: tomato;
+}
+
+.sexy-font {
+  font-family: 'Courier New', Courier, monospace;
+}
