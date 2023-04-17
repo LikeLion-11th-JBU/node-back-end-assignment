@@ -10,11 +10,16 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="login-form">
+    <form id="login-form">
       <!-- 사용자의 이름 받기 -->
-      <input type="text" placeholder="what is your name?" />
-      <button>Log In</button>
-    </div>
+      <input
+        required
+        maxlength="15"
+        type="text"
+        placeholder="what is your name?"
+      />
+      <input type="submit" value="Log In" />
+    </form>
     <!-- 자바스크립트 파일 불러오기 -->
     <script src="./app.js"></script>
   </body>
