@@ -7,9 +7,9 @@ const HIDDEN_CLASSNAME = 'hidden' // 'hidden' class를 자주 쓰니까 변수 �
 
 function onLoginSubmit(event) {
   event.preventDefault()
-  const username = loginInput.value
   loginForm.classList.add(HIDDEN_CLASSNAME)
-  console.log(username)
+  const username = loginInput.value
+  localStorage.setItem('username', username)
   // greeting.innerText = 'Hello ' + username // 아래랑 같음.
   greeting.innerText = `Hello ${username}` // 위에랑 같음.
   greeting.classList.remove(HIDDEN_CLASSNAME)
