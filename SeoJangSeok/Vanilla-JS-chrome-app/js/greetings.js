@@ -21,7 +21,7 @@ function paintGreetings(username) {
 
 const savedUsername = localStorage.getItem(USERNAME_KEY)
 
-console.log(savedUsername) // null 값이 나오면 username이 저장되지 않았다는 뜻.
+// console.log(savedUsername) // null 값이 나오면 username이 저장되지 않았다는 뜻.
 
 if (savedUsername === null) {
   // show the form
