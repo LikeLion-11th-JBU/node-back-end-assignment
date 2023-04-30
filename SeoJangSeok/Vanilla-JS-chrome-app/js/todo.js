@@ -13,13 +13,15 @@ function saveToDos() {
 
 function deleteToDo(event) {
   const li = event.target.parentElement
+  console.log(li.id)
   li.remove()
 }
 
 function paintToDo(newTodo) {
   const li = document.createElement('Li')
+  li.id = newTodo.id
   const span = document.createElement('span')
-  span.innerText = newTodo
+  span.innerText = newTodo.text
   const button = document.createElement('button')
   button.innerText = 'X'
   button.addEventListener('click', deleteToDo)
@@ -32,8 +34,12 @@ function handleToDoSubmit(event) {
   event.preventDefault()
   const newTodo = toDoInput.value // input에 입력한 value를 새로운 변수에 복사.
   toDoInput.value = '' // 입력했을 때 칸 비워주기.
-  toDos.push(newTodo)
-  paintToDo(newTodo)
+  const newTodoObj = {
+    text: newTodo,
+    id: Date.now(),
+  }
+  toDos.push(newTodoObj)
+  paintToDo(newTodoObj)
   saveToDos()
 }
 
