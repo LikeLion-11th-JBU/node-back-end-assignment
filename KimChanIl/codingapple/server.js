@@ -33,10 +33,16 @@ app.get('/write',function(req,res){
 
 app.post('/add',function(req,res){
     res.send('전송 완료!');
-    console.log(req.body.title)
-    console.log(req.body.date)
-    db.collection('post').insertOne({_id:101 ,날짜:req.body.date, 기한:req.body.title},function(error,result){
-        console.log('saved!');});
+    db.collection('counter').findOne({name : '게시물 갯수'},function(error,result){
+        console.log(result.totalPost);
+        var 총개시물개수 = result.totalPost;
+        db.collection('post').insertOne({_id: 총개시물개수 +1 ,나이:req.body.date, 이름:req.body.title},function(error,result){
+            console.log('saved!');});
+            db.collection('counter').updateOne({name : '게시물 갯수'},{ $inc: {totalPost : 1}},function(error,result){
+                if(error){return console.log(error)}
+            })
+    });
+    
 });
 
 app.get('/list',function(req,res){
