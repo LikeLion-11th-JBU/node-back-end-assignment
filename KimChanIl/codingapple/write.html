@@ -23,16 +23,27 @@
               <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./write">Write</a>
+              <a class="nav-link" href="#">Alink</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">BLink</a>
               </li>
           </ul>
       </nav>
-      <h4>
-        홈 입니다.
-      </h4>
+      <!--35줄의 내용은 백엔드에 꼭!-->
+      <div class="container mt-4">
+      <form action="/add" method="POST">
+        <div class="form-group">
+          <label >할 일</label>
+          <input type="text" class="form-control" name="title">
+        </div>
+        <div class="form-group">
+          <label>Due Date</label>
+          <input type="password" class="form-control" name="date">
+        </div>
+        <button type="submit" class="btn btn-danger">Submit</button>
+      </form>
+    </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
 

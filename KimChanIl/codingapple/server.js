@@ -1,6 +1,7 @@
 const express = require('express'); //라이브 러리 참고
 const app = express(); // 라이브러리를 이용한 객체 생성
-
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended : true}));
 app.listen(8080,function(){
     console.log('listening on 8080')
 }); //.listen(port no. , 서버 실행 후 실행할 코드)을 통해 서버를 열 수 있음
@@ -15,4 +16,13 @@ app.get('/beauty',function(req,res){
 
 app.get('/',function(req,res){
     res.sendFile(__dirname + '/index.html');
+});
+app.get('/write',function(req,res){
+    res.sendFile(__dirname + '/write.html');
+});
+
+app.post('/add',function(req,res){
+    res.send('전송 완료!');
+    console.log(req.body.title)
+    console.log(req.body.date)
 });
