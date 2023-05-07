@@ -34,19 +34,7 @@ app.get('/write',function(req,res){
     res.sendFile(__dirname + '/write.html');
 });
 
-app.post('/add',function(req,res){
-    res.send('전송 완료!');
-    db.collection('counter').findOne({name : '게시물 갯수'},function(error,result){
-        console.log(result.totalPost);
-        var 총개시물개수 = result.totalPost;
-        db.collection('post').insertOne({_id: 총개시물개수 +1 ,이름:req.body.title, 나이:req.body.date},function(error,result){
-            console.log('saved!');});
-            db.collection('counter').updateOne({name : '게시물 갯수'},{ $inc: {totalPost : 1}},function(error,result){
-                if(error){return console.log(error)}
-            })
-    });
-    
-});
+
 
 app.get('/list',function(req,res){
     db.collection('post').find().toArray(function(error,result){
@@ -55,14 +43,7 @@ app.get('/list',function(req,res){
     });
 });
 
-app.delete('/delete', function(req,res){
-    console.log(req.body)
-    req.body._id = parseInt(req.body._id);
-    db.collection('post').deleteOne(req.body,function(error,result){
-        console.log('del complete!');
-        res.status(200).send({message:'success'});
-    })
-})
+
 app.get('/detail/:id',function(req,res){
     db.collection('post').findOne({_id:parseInt(req.params.id)},function(error,result){
         console.log(result);
@@ -141,7 +122,35 @@ passport.use(new LocalStrategy({
         done(null, result)
     })
   }); 
-
+app.post('/register',function(req,res){
+    db.collection('login').insertOne({id:req.body.id,pw:req.body.pw},(error,result)=>{
+        res.redirect('/');
+    })
+})
+app.post('/add',function(req,res){
+    res.send('전송 완료!');
+    db.collection('counter').findOne({name : '게시물 갯수'},function(error,result){
+        console.log(result.totalPost);
+        var 총개시물개수 = result.totalPost;
+        var 저장할거 = {_id: 총개시물개수 +1 ,이름:req.body.title, 나이:req.body.date,작성자:req.user._id };
+        db.collection('post').insertOne(저장할거,function(error,result){
+            console.log('saved!');});
+            db.collection('counter').updateOne({name : '게시물 갯수'},{ $inc: {totalPost : 1}},function(error,result){
+                if(error){return console.log(error)}
+            })
+    });
+    
+});
+app.delete('/delete', function(req,res){
+    console.log(req.body)
+    req.body._id = parseInt(req.body._id);
+    var deldata = {_id:req.body._id, 작성자:req.user._id}
+    db.collection('post').deleteOne(deldata,function(error,result){
+        console.log('del complete!');
+        if(error){console.log(error)}
+        res.status(200).send({message:'success'});
+    })
+})
   app.get('/search',(req,res)=>{
     console.log(req.query.value);
     //db.collection('post').find({$text:{$search:req.query.value}}).toArray((error,result)=>{
