@@ -2,6 +2,8 @@ const express = require('express'); //라이브 러리 참고
 const app = express(); // 라이브러리를 이용한 객체 생성
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended : true}));
 //npm install mongodb할 때 강의 버전으로 해야돼..
@@ -65,5 +67,18 @@ app.get('/detail/:id',function(req,res){
         console.log(result);
         res.render('detail.ejs',{ DATA: result });
 
+    })
+})
+app.get('/edit/:id',function(req,res){
+    db.collection('post').findOne({_id:parseInt(req.params.id)},function(error,result){
+        res.render('edit.ejs',{post: result});
+        
+    })
+})
+
+app.put('/edit',function(req,res){
+    db.collection('post').updateOne({_id:parseInt(req.body.id)},{$set : {이름 : req.body.title,나이: parseInt(req.body.date)}},function(error,result){
+        console.log('updated!');
+        res.redirect('/list');
     })
 })
