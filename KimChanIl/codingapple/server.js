@@ -36,7 +36,7 @@ app.post('/add',function(req,res){
     db.collection('counter').findOne({name : '게시물 갯수'},function(error,result){
         console.log(result.totalPost);
         var 총개시물개수 = result.totalPost;
-        db.collection('post').insertOne({_id: 총개시물개수 +1 ,나이:req.body.date, 이름:req.body.title},function(error,result){
+        db.collection('post').insertOne({_id: 총개시물개수 +1 ,이름:req.body.date, 나이:req.body.title},function(error,result){
             console.log('saved!');});
             db.collection('counter').updateOne({name : '게시물 갯수'},{ $inc: {totalPost : 1}},function(error,result){
                 if(error){return console.log(error)}
@@ -52,3 +52,11 @@ app.get('/list',function(req,res){
     });
 });
 
+app.delete('/delete', function(req,res){
+    console.log(req.body)
+    req.body._id = parseInt(req.body._id);
+    db.collection('post').deleteOne(req.body,function(error,result){
+        console.log('del complete!');
+        res.status(200).send({message:'success'});
+    })
+})
