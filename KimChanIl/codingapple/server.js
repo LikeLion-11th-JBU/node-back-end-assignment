@@ -39,7 +39,7 @@ app.post('/add',function(req,res){
     db.collection('counter').findOne({name : '게시물 갯수'},function(error,result){
         console.log(result.totalPost);
         var 총개시물개수 = result.totalPost;
-        db.collection('post').insertOne({_id: 총개시물개수 +1 ,이름:req.body.date, 나이:req.body.title},function(error,result){
+        db.collection('post').insertOne({_id: 총개시물개수 +1 ,이름:req.body.title, 나이:req.body.date},function(error,result){
             console.log('saved!');});
             db.collection('counter').updateOne({name : '게시물 갯수'},{ $inc: {totalPost : 1}},function(error,result){
                 if(error){return console.log(error)}
@@ -141,3 +141,25 @@ passport.use(new LocalStrategy({
         done(null, result)
     })
   }); 
+
+  app.get('/search',(req,res)=>{
+    console.log(req.query.value);
+    //db.collection('post').find({$text:{$search:req.query.value}}).toArray((error,result)=>{
+    var condition = [
+        {
+            $search : {
+                index: 'nameSearch',
+                text: {
+                    query:req.query.value,
+                    path:'이름'
+                }
+            }
+        },
+        {$sort:{_id:-1}},
+        {$limit:2}
+    ]
+    db.collection('post').aggregate(condition).toArray((error,result)=>{
+        console.log(result);
+        res.render('search.ejs',{posts:result})
+    })
+    });
