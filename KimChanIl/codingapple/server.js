@@ -172,3 +172,6 @@ app.delete('/delete', function(req,res){
         res.render('search.ejs',{posts:result})
     })
     });
+
+app.use('/',iflogin,require('./route/shop.js'));
+app.use('/',iflogin,require('./route/board.js'));
