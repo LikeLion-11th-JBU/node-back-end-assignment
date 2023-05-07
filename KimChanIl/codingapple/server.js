@@ -3,6 +3,7 @@ const app = express(); // 라이브러리를 이용한 객체 생성
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+require('dotenv').config();
 app.use(methodOverride('_method'));
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended : true}));
