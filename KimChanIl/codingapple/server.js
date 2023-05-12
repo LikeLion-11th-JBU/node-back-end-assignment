@@ -3,6 +3,7 @@ const app = express(); // 라이브러리를 이용한 객체 생성
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+let multer = require('multer');
 require('dotenv').config();
 app.use(methodOverride('_method'));
 app.set('view engine','ejs');
@@ -68,6 +69,7 @@ app.put('/edit',function(req,res){
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
+//const multer = require('multer');
 
 app.use(session({secret : '비밀코드',resave : true,saveUninitialized:false}));
 app.use(passport.initialize());
@@ -175,3 +177,24 @@ app.delete('/delete', function(req,res){
 
 app.use('/',iflogin,require('./route/shop.js'));
 app.use('/',iflogin,require('./route/board.js'));
+var storage = multer.diskStorage({
+    destination : function(req,file,cb){
+        cb(null,'./public/image')
+    },
+    filename :  function(req,file,cb){
+        cb(null,file.originalname)
+    },
+    
+})// 휘발성은 memortstorage
+var upload = multer({storage : storage})
+app.get('/upload',(req,res)=>{
+    res.render('upload.ejs')
+})
+
+app.post('/upload',upload.array('profile',10),(req,res)=>{
+    res.send('upload complete!');
+})
+
+app.get('/image/:imagename',(req,res)=>{
+    res.sendFile(__dirname+'/public/image/'+req.params.imagename)
+})
