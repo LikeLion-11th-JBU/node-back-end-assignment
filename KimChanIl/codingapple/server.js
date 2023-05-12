@@ -3,6 +3,7 @@ const app = express(); // 라이브러리를 이용한 객체 생성
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+const {ObjectId} =require('mongodb');
 let multer = require('multer');
 require('dotenv').config();
 app.use(methodOverride('_method'));
@@ -10,7 +11,7 @@ app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended : true}));
 //npm install mongodb할 때 강의 버전으로 해야돼..
 var db;
-MongoClient.connect('mongodb+srv://Kchan:1234@codingapple.zlnpnec.mongodb.net/?retryWrites=true&w=majority', function(에러, client){
+MongoClient.connect('mongodb+srv://Kchan:1234@codingapple.zlnpnec.mongodb.net/?retryWrites=true&w=majority',{useUnifiedTopology:true}, function(에러, client){
     if (에러) return console.log(에러)
     //서버띄우는 코드 여기로 옮기기
     db = client.db('todoapp');
@@ -198,3 +199,36 @@ app.post('/upload',upload.array('profile',10),(req,res)=>{
 app.get('/image/:imagename',(req,res)=>{
     res.sendFile(__dirname+'/public/image/'+req.params.imagename)
 })
+
+app.post('/chatroom',iflogin, function(req, res){
+
+    var 저장할거 = {
+      title :  '무슨무슨채팅방',
+      member : [ObjectId(req.body.당한사람id), req.user._id],
+      date : new Date()
+    }
+  
+    db.collection('chatroom').insertOne(저장할거).then(function(result){
+      res.send('저장완료')
+    });
+  });
+
+  app.get('/chat',iflogin,(req,res)=>{
+    db.collection('chatroom').find({member:req.user._id}).toArray().then((result)=>{
+        res.render('chat.ejs',{data:result});
+
+    })
+  })
+
+  app.post('/message',iflogin,(req,res)=>{
+    var savedata = {
+        parent : req.body.parent,
+        content: req.body.content, 
+        userid: req.user._id,
+        date : new Date()
+    }
+    db.collection('message').insertOne(savedata).then(()=>{
+        console.log('성공')
+        res.send('DB Saved!')
+    })
+  })
