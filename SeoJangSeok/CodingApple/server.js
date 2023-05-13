@@ -3,18 +3,19 @@ const app = express() // 첨부한 라이브러리로 객체를 만들어 주세
 
 const bodyParser = require('body-parser') // 2021년 이후 설치한 프로젝트들은 body-parser 라이브러리가 express에 기본 포함되어있다. 따로 npm 설치할 필요X
 app.use(bodyParser.urlencoded({ extended: true }))
+app.set('view engine', 'ejs')
 
 const MongoClient = require('mongodb').MongoClient
 var db
 MongoClient.connect(
-  'mongodb+srv://admin:1234@cluster0.sbeo9nw.mongodb.net/?retryWrites=true&w=majority',
+  'mongodb+srv://admin:1234@cluster0.0eg5qio.mongodb.net/?retryWrites=true&w=majority',
   { useUnifiedTopology: true },
   function (에러, client) {
     if (에러) return console.log(에러)
     db = client.db('todoapp')
 
     db.collection('post').insertOne(
-      { _id: 100, 이름: 'John', 나이: 20 },
+      { _id: 102, 이름: 'SJS', 나이: 24 },
       function (에러, 결과) {
         console.log('저장완료')
       }
@@ -45,6 +46,15 @@ app.get('/write', function (req, res) {
   res.sendFile(__dirname + '/write.html')
 })
 
+app.get('/list', function (req, res) {
+  db.collection('post')
+    .find()
+    .toArray(function (에러, 결과) {
+      console.log(결과)
+      res.render('list.ejs', { posts: 결과 })
+    })
+})
+
 app.post('/add', function (req, res) {
   console.log(req.body.title)
   console.log(req.body.date)
@@ -55,7 +65,7 @@ app.post('/add', function (req, res) {
       제목: req.body.title,
       날짜: req.body.date,
     },
-    function (에러, 결과) {
+    function () {
       console.log('저장완료')
     }
   )
