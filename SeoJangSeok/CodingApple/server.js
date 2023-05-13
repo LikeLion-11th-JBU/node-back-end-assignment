@@ -4,9 +4,17 @@ const app = express() // 첨부한 라이브러리로 객체를 만들어 주세
 const bodyParser = require('body-parser') // 2021년 이후 설치한 프로젝트들은 body-parser 라이브러리가 express에 기본 포함되어있다. 따로 npm 설치할 필요X
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.listen(8080, function () {
-  console.log('listening on 8080')
-}) // 8080 port로 웹 서버를 열고 잘 열리면 'listening on 8080'을 출력해주세요~
+const MongoClient = require('mongodb').MongoClient
+MongoClient.connect(
+  'mongodb+srv://admin:1234@cluster0.sbeo9nw.mongodb.net/?retryWrites=true&w=majority',
+  function (에러, client) {
+    if (에러) return console.log(에러)
+    //서버띄우는 코드 여기로 옮기기
+    app.listen(8080, function () {
+      console.log('listening on 8080')
+    }) // 8080 port로 웹 서버를 열고 잘 열리면 'listening on 8080'을 출력해주세요~
+  }
+)
 
 // 누군가가 /pet으로 방문을 하면
 // pet 관련된 안내문을 띄워준다.
