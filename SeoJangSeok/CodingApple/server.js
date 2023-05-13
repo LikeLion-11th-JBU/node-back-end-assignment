@@ -5,10 +5,20 @@ const bodyParser = require('body-parser') // 2021년 이후 설치한 프로젝�
 app.use(bodyParser.urlencoded({ extended: true }))
 
 const MongoClient = require('mongodb').MongoClient
+var db
 MongoClient.connect(
   'mongodb+srv://admin:1234@cluster0.sbeo9nw.mongodb.net/?retryWrites=true&w=majority',
+  { useUnifiedTopology: true },
   function (에러, client) {
     if (에러) return console.log(에러)
+    db = client.db('todoapp')
+
+    db.collection('post').insertOne(
+      { 이름: 'John', _id: 100 },
+      function (에러, 결과) {
+        console.log('저장완료')
+      }
+    )
     //서버띄우는 코드 여기로 옮기기
     app.listen(8080, function () {
       console.log('listening on 8080')
