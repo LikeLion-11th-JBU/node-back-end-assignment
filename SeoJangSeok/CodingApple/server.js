@@ -14,7 +14,7 @@ MongoClient.connect(
     db = client.db('todoapp')
 
     db.collection('post').insertOne(
-      { 이름: 'John', _id: 100 },
+      { _id: 100, 이름: 'John', 나이: 20 },
       function (에러, 결과) {
         console.log('저장완료')
       }
@@ -46,6 +46,17 @@ app.get('/write', function (req, res) {
 })
 
 app.post('/add', function (req, res) {
-  console.log(req.body)
+  console.log(req.body.title)
+  console.log(req.body.date)
   res.send('전송완료')
+  db.collection('post').insertOne(
+    {
+      _id: 101,
+      제목: req.body.title,
+      날짜: req.body.date,
+    },
+    function (에러, 결과) {
+      console.log('저장완료')
+    }
+  )
 })
