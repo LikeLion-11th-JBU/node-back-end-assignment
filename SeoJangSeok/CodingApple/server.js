@@ -1,6 +1,9 @@
 const express = require('express') // 설치한 라이브러리를 첨부해 주세요~
 const app = express() // 첨부한 라이브러리로 객체를 만들어 주세요~
 
+const bodyParser = require('body-parser') // 2021년 이후 설치한 프로젝트들은 body-parser 라이브러리가 express에 기본 포함되어있다. 따로 npm 설치할 필요X
+app.use(bodyParser.urlencoded({ extended: true }))
+
 app.listen(8080, function () {
   console.log('listening on 8080')
 }) // 8080 port로 웹 서버를 열고 잘 열리면 'listening on 8080'을 출력해주세요~
@@ -22,4 +25,9 @@ app.get('/', function (req, res) {
 
 app.get('/write', function (req, res) {
   res.sendFile(__dirname + '/write.html')
+})
+
+app.post('/add', function (req, res) {
+  console.log(req.body)
+  res.send('전송완료')
 })
