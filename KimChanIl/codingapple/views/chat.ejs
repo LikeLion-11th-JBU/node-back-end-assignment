@@ -60,12 +60,27 @@
         </div>
       
       </div> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <!-- Optional JavaScript; choose one of the two! -->
 <script>
     var targetchatid
+    var eventSource
     $('.list-group-item').click(()=>{
         targetchatid = this.dataset.id;
+        if(eventSource != undefined){
+          eventSource.close()
+        }
+        $('.chat-content').html('');
+
+        eventSource = new EventSource('/message');
+        eventSource.addEventListener('test',(e)=>{
+            console.log(e.data);
+            var bring= JSON.parse(e.data);
+            bring.forEach((a)=>{
+              $('.chat-content').append(`<li><span class="chat-box">${a.content}</span></li>`)
+            })
+        })
     })
     $('#send').click(()=>{
         var chatcontent = $('#chat-input').val();

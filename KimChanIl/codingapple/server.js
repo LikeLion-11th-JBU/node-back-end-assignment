@@ -4,6 +4,9 @@ const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const {ObjectId} =require('mongodb');
+const http = require('http').createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(http);
 let multer = require('multer');
 require('dotenv').config();
 app.use(methodOverride('_method'));
@@ -16,7 +19,7 @@ MongoClient.connect('mongodb+srv://Kchan:1234@codingapple.zlnpnec.mongodb.net/?r
     //서버띄우는 코드 여기로 옮기기
     db = client.db('todoapp');
 
-    app.listen('8080', function(){
+    http.listen('8080', function(){
       console.log('listening on 8080')
     });
   })
@@ -231,4 +234,51 @@ app.post('/chatroom',iflogin, function(req, res){
         console.log('성공')
         res.send('DB Saved!')
     })
+  })
+  app.get('/message/:parentid', iflogin, function(req, res){
+
+    res.writeHead(200, {
+      "Connection": "keep-alive",
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+    });
+  
+    db.collection('message').find({ parent: req.params.parentid }).toArray()
+    .then((result)=>{
+      console.log(result);
+      res.write('event: test\n');
+      res.write(`data: ${JSON.stringify(result)}\n\n`);
+    });
+  
+  
+    const searching = [
+      { $match: { 'fullDocument.parent': req.params.parentid } }
+    ];
+  
+    const changeStream = db.collection('message').watch(searching);
+    changeStream.on('change', result => {
+      console.log(result.fullDocument);
+      var adddoc = [result.fullDocument];
+      res.write(`data: ${JSON.stringify(adddoc)}\n\n`);
+    });
+  
+  });
+
+  app.get('/socket', function(req,res){
+    res.render('socket.ejs')
+  });
+
+  io.on('connection',(socket)=>{
+    console.log('connect!');
+    socket.on('room1-send',(data)=>{
+        io.to('room1').emit('broadcast',data);
+    })
+    socket.on('joinroom',(data)=>{
+        socket.join('room1');
+    })
+    socket.on('user-send',(data)=>{
+        console.log(data)
+        //io.to(socket.id).emit('broadcast',data);
+        io.emit('broadcast',data);
+    });
   })
