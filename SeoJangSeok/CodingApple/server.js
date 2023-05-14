@@ -4,6 +4,7 @@ const MongoClient = require('mongodb').MongoClient
 const bodyParser = require('body-parser') // 2021년 이후 설치한 프로젝트들은 body-parser 라이브러리가 express에 기본 포함되어있다. 따로 npm 설치할 필요X
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use('/public', express.static('public'))
 
 var db
 MongoClient.connect(
@@ -70,4 +71,14 @@ app.delete('/delete', function (req, res) {
     console.log('삭제완료')
   })
   res.send('삭제완료')
+})
+
+app.get('/detail/:id', function (req, res) {
+  db.collection('post').findOne(
+    { _id: parseInt(req.params.id) },
+    function (error, result) {
+      console.log(result)
+      res.render('detail.ejs', { data: result })
+    }
+  )
 })
