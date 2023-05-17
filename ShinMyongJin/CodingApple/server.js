@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
@@ -42,6 +45,16 @@ app.get('/list', function (req, res) {
       console.log(result);
       res.render('list.ejs', { posts: result });
     });
+});
+
+app.get('/edit/:id', function (요청, 응답) {
+  db.collection('post').findOne(
+    { _id: parseInt(요청.params.id) },
+    function (에러, 결과) {
+      console.log(결과);
+      응답.render('edit.ejs', { post: 결과 }); //파라미터중 :id
+    }
+  );
 });
 
 app.post('/add', function (요청, 응답) {
