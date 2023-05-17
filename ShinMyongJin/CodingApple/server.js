@@ -57,6 +57,17 @@ app.get('/edit/:id', function (요청, 응답) {
   );
 });
 
+app.put('/edit', function (요청, 응답) {
+  db.collection('post').updateOne(
+    { _id: parseInt(요청.body.id) },
+    { $set: { 제목: 요청.body.title, 날짜: 요청.body.date } },
+    function (에러, 결과) {
+      console.log('수정완료');
+      응답.redirect('/list');
+    }
+  );
+});
+
 app.post('/add', function (요청, 응답) {
   db.collection('counter').findOne(
     { name: '게시물갯수' },
