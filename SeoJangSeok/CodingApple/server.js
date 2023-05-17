@@ -36,7 +36,7 @@ app.get('/list', function (req, res) {
   db.collection('post')
     .find() // .find().toArray() : collection('post')에 있는 데이터를 Array로 가져온다.
     .toArray(function (error, result) {
-      console.log(result)
+      //console.log(result)
       res.render('list.ejs', { posts: result })
     })
 })
@@ -89,8 +89,21 @@ app.get('/edit/:id', function (요청, 응답) {
   db.collection('post').findOne(
     { _id: parseInt(요청.params.id) },
     function (에러, 결과) {
-      console.log(결과)
+      // console.log(결과)
       응답.render('edit.ejs', { post: 결과 })
+    }
+  )
+})
+
+app.put('/edit', function (요청, 응답) {
+  // 폼에담긴 제목데이터, 날짜데이터를 가지고
+  // db.collection 에다 업데이트함
+  db.collection('post').updateOne(
+    { _id: parseInt(요청.body.id) },
+    { $set: { 제목: 요청.body.title, 날짜: 요청.body.date } },
+    function (에러, 결과) {
+      console.log('수정완료')
+      응답.redirect('/list')
     }
   )
 })
