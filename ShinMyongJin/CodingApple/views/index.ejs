@@ -1,5 +1,6 @@
-<!doctype html>
-<head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -15,37 +16,19 @@
       crossorigin="anonymous"
     />
 
-    <title>List</title>
+    <title>Hello, world!</title>
   </head>
   <body>
-    <div class="container">
     <%- include('nav.html') %>
-    <ul class="list-group">
-      <% for (var i = 0; i < posts.length; i++){ %>
-      <li class="list-group-item">
-        <h4> 할일 제목 : <%= posts[i].제목 %> </h4>
-        <p> 할일 마감날짜 : <%= posts[i].날짜 %> </p>
-        <button class="delete" data-id="<%= posts[i]._id %>">삭제</button>
-      </li>
-      <% } %>
-    </ul>
-  </div>
+    <h1>Hello, world!</h1>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-    <script>
-      $('.delete').click(function(){
-        $.ajax({
-          method : 'DELETE',
-          url : '/delete',
-          data : { _id : event.target.dataset.id }
-        }).done((결과) => {
-          $(this).parent('li').fadeOut()
-        })
-      });
-    </script>
-    
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
@@ -57,5 +40,4 @@
       crossorigin="anonymous"
     ></script>
   </body>
-
 </html>

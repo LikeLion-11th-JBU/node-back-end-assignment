@@ -1,6 +1,11 @@
 const express = require('express');
 const app = express();
 const MongoClient = require('mongodb').MongoClient;
+const bodyParser = require('body-parser');
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use('/public', express.static('public'));
 
 var db;
 MongoClient.connect(
@@ -9,6 +14,13 @@ MongoClient.connect(
   function (에러, client) {
     if (에러) return console.log(에러);
     db = client.db('todoapp');
+
+    db.collection('post').insertOne(
+      { 이름: 'MJ', _id: 200 },
+      function (에러, 결과) {
+        console.log('저장완료');
+      }
+    );
 
     app.listen(8080, function () {
       console.log('listening on 8080');
@@ -65,4 +77,11 @@ app.delete('/delete', function (요청, 응답) {
   응답.send('삭제완료');
 });
 
-app.use(express.urlencoded({ extended: true }));
+app.get('/detail/:id', function (요청, 응답) {
+  db.collection('post').findOne(
+    { _id: parseInt(요청.params.id) },
+    function (에러, 결과) {
+      응답.render('detail.ejs', { data: 결과 });
+    }
+  );
+});
