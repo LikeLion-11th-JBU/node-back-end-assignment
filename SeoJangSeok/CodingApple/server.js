@@ -89,7 +89,7 @@ app.get('/edit/:id', function (요청, 응답) {
   db.collection('post').findOne(
     { _id: parseInt(요청.params.id) },
     function (에러, 결과) {
-      // console.log(결과)
+      console.log(결과)
       응답.render('edit.ejs', { post: 결과 })
     }
   )
