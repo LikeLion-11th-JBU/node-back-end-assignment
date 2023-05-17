@@ -2,6 +2,8 @@ const express = require('express') // 설치한 express 라이브러리를 첨�
 const app = express() // 첨부한 라이브러리로 객체를 만들어 주세요~
 const MongoClient = require('mongodb').MongoClient
 const bodyParser = require('body-parser') // 2021년 이후 설치한 프로젝트들은 body-parser 라이브러리가 express에 기본 포함되어있다. 따로 npm 설치할 필요X
+const methodOverride = require('method-override')
+app.use(methodOverride('_method'))
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/public', express.static('public'))
@@ -79,6 +81,16 @@ app.get('/detail/:id', function (req, res) {
     function (error, result) {
       console.log(result)
       res.render('detail.ejs', { data: result })
+    }
+  )
+})
+
+app.get('/edit/:id', function (요청, 응답) {
+  db.collection('post').findOne(
+    { _id: parseInt(요청.params.id) },
+    function (에러, 결과) {
+      console.log(결과)
+      응답.render('edit.ejs', { post: 결과 })
     }
   )
 })
