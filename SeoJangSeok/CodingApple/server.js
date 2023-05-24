@@ -229,3 +229,12 @@ app.post('/register', function (요청, 응답) {
     }
   )
 })
+
+app.use('/board/sub', require('./routes/board.js')) // 숙제
+app.use('/shop', require('./routes/shop.js')) // / 경로로 요청했을 때 이런 미들웨어를 적용해주세요~
+// app.get('/shop/shirts', function (요청, 응답) {
+//   응답.send('셔츠 파는 페이지입니다.')
+// })
+// app.get('/shop/pants', function (요청, 응답) {
+//   응답.send('바지 파는 페이지입니다')
+// })
