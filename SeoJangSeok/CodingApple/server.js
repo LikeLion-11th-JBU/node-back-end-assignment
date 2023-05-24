@@ -52,6 +52,9 @@ app.get('/search', (요청, 응답) => {
         },
       },
     },
+    //  { $sort: { _id: 1 } },
+    //  { $limit: 10 },
+    // { $project: { 제목: 1, _id: 0, score: { $meta: 'searchScore' } } },
   ]
   console.log(요청.query.value)
   db.collection('post')
