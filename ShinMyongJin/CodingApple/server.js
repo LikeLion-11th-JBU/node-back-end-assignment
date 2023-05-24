@@ -226,3 +226,6 @@ app.delete('/delete', function (요청, 응답) {
     응답.status(200).send({ message: '성공했다' });
   });
 });
+
+app.use('/shop', require('./routes/shop.js'));
+app.use('/board/sub', require('./routes/board.js'));
