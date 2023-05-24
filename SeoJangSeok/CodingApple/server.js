@@ -65,40 +65,6 @@ app.get('/search', (요청, 응답) => {
     })
 })
 
-app.post('/add', function (req, res) {
-  res.send('전송 완료!')
-  db.collection('counter').findOne(
-    { name: '게시물갯수' },
-    function (error, result) {
-      console.log(result.totalPost)
-      var 총게시물갯수 = result.totalPost
-      db.collection('post').insertOne(
-        { _id: 총게시물갯수 + 1, 제목: req.body.title, 날짜: req.body.date },
-        function (error, result) {
-          console.log('saved!')
-          db.collection('counter').updateOne(
-            { name: '게시물갯수' },
-            { $inc: { totalPost: 1 } },
-            function (error, result) {
-              if (error) {
-                return console.log(error)
-              }
-            }
-          )
-        }
-      )
-    }
-  )
-})
-
-app.delete('/delete', function (req, res) {
-  req.body._id = parseInt(req.body._id)
-  db.collection('post').deleteOne(req.body, function (error, result) {
-    console.log('삭제완료')
-  })
-  res.send('삭제완료')
-})
-
 app.get('/detail/:id', function (req, res) {
   db.collection('post').findOne(
     { _id: parseInt(req.params.id) },
@@ -206,4 +172,60 @@ passport.deserializeUser(function (아이디, done) {
   db.collection('login').findOne({ id: 아이디 }, function (에러, 결과) {
     done(null, 결과)
   })
+})
+
+app.post('/add', function (req, res) {
+  res.send('전송 완료!')
+  db.collection('counter').findOne(
+    { name: '게시물갯수' },
+    function (error, result) {
+      console.log(result.totalPost)
+      var 총게시물갯수 = result.totalPost
+      var 저장할거 = {
+        _id: 총게시물갯수 + 1,
+        작성자: req.user._id,
+        제목: req.body.title,
+        날짜: req.body.date,
+      }
+      db.collection('post').insertOne(저장할거, function (error, result) {
+        console.log('saved!')
+        // counter라는 콜렉션에 있는 totalPost 라는 항목도 1증가시켜야함 (수정);
+        db.collection('counter').updateOne(
+          { name: '게시물갯수' },
+          { $inc: { totalPost: 1 } },
+          function (error, result) {
+            if (error) {
+              return console.log(error)
+            }
+          }
+        )
+      })
+    }
+  )
+})
+
+app.delete('/delete', function (req, res) {
+  console.log('삭제요청들어옴')
+  console.log(req.body)
+  req.body._id = parseInt(req.body._id)
+
+  var 삭제할데이터 = { _id: req.body._id, 작성자: req.user._id }
+
+  // 요청.body에 담겨온 게시물번호를 가진 글을 db에서 찾아서 삭제해주세요.
+  db.collection('post').deleteOne(req.body, function (error, result) {
+    console.log('삭제완료')
+  })
+  if (결과) {
+    console.log(결과)
+  }
+  res.status(200).send({ message: '성공했습니다' })
+})
+
+app.post('/register', function (요청, 응답) {
+  db.collection('login').insertOne(
+    { id: 요청.body.id, pw: 요청.body.pw },
+    function (에러, 결과) {
+      응답.redirect('/')
+    }
+  )
 })
