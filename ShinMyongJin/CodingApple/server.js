@@ -184,3 +184,24 @@ passport.deserializeUser(function (아이디, done) {
     done(null, 결과);
   });
 }); //마이페이지 접속시 발동 db에서 위에 있는 user.id로 유저를 찾은뒤에 유저정보를 괄호에 넣기
+
+app.get('/search', (요청, 응답) => {
+  var 검색조건 = [
+    {
+      $search: {
+        index: 'titleSearch',
+        text: {
+          query: 요청.query.value,
+          path: '제목', //제목 날짜 둘다 찾고 싶으면 [제목, 날짜]
+        },
+      },
+    },
+  ];
+
+  db.collection('post')
+    .aggregate(검색조건)
+    .toArray((에러, 결과) => {
+      console.log(결과);
+      응답.render('result.ejs', { posts: 결과 });
+    });
+});
