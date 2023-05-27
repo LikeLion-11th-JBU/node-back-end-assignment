@@ -125,7 +125,7 @@ app.get('/mypage', 로그인했니, function (요청, 응답) {
   console.log(요청.user)
   응답.render('mypage.ejs', { 사용자: 요청.user })
 })
-
+// 마이페이지 접속 전 실행할 미들웨어
 function 로그인했니(요청, 응답, next) {
   if (요청.user) {
     next()
