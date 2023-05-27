@@ -64,6 +64,30 @@
       });
     </script>
     
+    <div class="container">
+      <ul class="list-group">
+        <% for (var i=0; i < posts.length ; i++){ %>
+          <li class="list-group-item">
+            <p>글번호 : <%= posts[i]._id %></p>
+            <h4>할일 제목 : <%= posts[i].제목 %></h4>
+            <p>할일 마감날짜 : <%= posts[i].날짜 %></p>
+            <button class="btn btn-danger delete" data-id="<%= posts[i]._id %>">삭제</button>
+            <button class="btn btn-secondary chat" data-id="<%= posts[i].작성자 %>">채팅하기</button></li>
+          <% } %>
+      </ul>
+  </div>
+  
+  
+  <script>
+  $('.chat').click(function(e){
+    var _id = e.target.dataset.id;
+    $.post('/chatroom', {당한사람id : _id})
+    .then(()=>{
+      console.log('채팅방 게시물 생성완료')
+    })
+  });
+  </script>
+  
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
@@ -74,6 +98,7 @@
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
       crossorigin="anonymous"
     ></script>
+
   </body>
 
 </html>
