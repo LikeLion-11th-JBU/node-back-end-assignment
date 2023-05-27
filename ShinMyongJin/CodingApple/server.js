@@ -1,5 +1,8 @@
 const express = require('express');
 const app = express();
+const http = require('http').createServer(app);
+const { Server } = require('socket.io');
+const io = new Server(http);
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
@@ -26,7 +29,7 @@ MongoClient.connect(
       }
     );
 
-    app.listen(8080, function () {
+    http.listen(8080, function () {
       console.log('listening on 8080');
     });
   }
@@ -46,6 +49,18 @@ app.get('/list', function (req, res) {
       console.log(result);
       res.render('list.ejs', { posts: result });
     });
+});
+
+app.get('/socket', function (요청, 응답) {
+  응답.render('socket.ejs');
+});
+
+io.on('connection', function (socket) {
+  console.log('유저접속됨');
+
+  socket.on('user-send', function (data) {
+    console.log(data);
+  });
 });
 
 app.get('/edit/:id', function (요청, 응답) {
