@@ -293,11 +293,26 @@ app.post('/message', 로그인했니, function (요청, 응답) {
     userid: 요청.user._id,
     date: new Date(),
   };
-
   db.collection('message')
     .insertOne(저장할거)
     .then(() => {
       console.log('DB저장성공');
       응답.send('DB저장성공');
+    });
+});
+
+app.get('/message/:id', 로그인했니, function (요청, 응답) {
+  응답.writeHead(200, {
+    Connection: 'keep-alive',
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+  });
+
+  db.collection('message')
+    .find({ parent: 요청.params.id })
+    .toArray()
+    .then((결과) => {
+      응답.write('event: test\n');
+      응답.write('data: ' + JSON.stringify(결과) + '\n\n');
     });
 });

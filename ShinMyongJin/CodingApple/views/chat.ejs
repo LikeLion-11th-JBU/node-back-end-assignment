@@ -24,7 +24,7 @@
     <div class="row">
       <div class="col-3">
         <ul class="list-group chat-list">
-          <% for (var i=0; i < data.length ; i++){ %>
+          <% for (let i=0; i < data.length ; i++){ %>
           <li class="list-group-item" data-id="<%= data[i]._id %>">
             <h6><%= data[i].title %></h6>
             <h6 class="text-small"><%= data[i].member[0] %></h6>
@@ -49,11 +49,18 @@
     </div>
   </div>
 
+  <script src="https://code.jQuery.com/jquery-3.4.1.min.js"></script>
   <script>
   
   var 지금누른채팅방id;
+  var eventSource
     $('.list-group-item').click(function(){
         지금누른채팅방id = this.dataset.id;
+
+        eventSource = new EventSource('/message/' + 지금누른채팅방id );
+        eventSource.addEventListener('test', function(e){
+            console.log(JSON.parse(e.data))
+        })
     })
 
     $('#send').click(function(){
@@ -62,12 +69,11 @@
             parent : 지금누른채팅방id,
             content : 채팅내용,
         }
-        $.post('/message', 보낼거).then(()=>{
+        $.post('/message', 보낼거).then(() => {
             console.log('전송성공');
         })
     })
   </script>
-  <script src="https://code.jQuery.com/jquery-3.4.1.min.js"></script>
 </body>
 
 </html>
