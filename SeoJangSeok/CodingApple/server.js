@@ -35,8 +35,18 @@ app.get('/socket', function (요청, 응답) {
 
 io.on('connection', function (socket) {
   console.log('유저접속됨')
+
+  socket.on('room1-send', function (data) {
+    io.to('room1').emit('broadcast', data)
+  })
+
+  socket.on('joinroom', function (data) {
+    socket.join('room1')
+  })
+
   socket.on('user-send', function (data) {
-    console.log(data)
+    // console.log(data)
+    io.emit('broadcast', data)
   })
 })
 
