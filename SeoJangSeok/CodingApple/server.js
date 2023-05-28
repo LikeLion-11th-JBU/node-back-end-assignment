@@ -1,5 +1,10 @@
 const express = require('express') // 설치한 express 라이브러리를 첨부해 주세요~
 const app = express() // 첨부한 라이브러리로 객체를 만들어 주세요~
+// socket.io 셋팅
+const http = require('http').createServer(app)
+const { Server } = require('socket.io')
+const io = new Server(http)
+
 const MongoClient = require('mongodb').MongoClient
 const bodyParser = require('body-parser') // 2021년 이후 설치한 프로젝트들은 body-parser 라이브러리가 express에 기본 포함되어있다. 따로 npm 설치할 필요X
 const { ObjectId } = require('mongodb')
@@ -18,11 +23,22 @@ MongoClient.connect(
     db = client.db('todoapp') // todoapp이라는 DB에 접속하라는 명령.
 
     //서버띄우는 코드 여기로 옮기기
-    app.listen(8080, function () {
+    http.listen(8080, function () {
       console.log('listening on 8080')
     }) // 8080 port로 웹 서버를 열고 잘 열리면 'listening on 8080'을 출력해주세요~
   }
 )
+
+app.get('/socket', function (요청, 응답) {
+  응답.render('socket.ejs')
+})
+
+io.on('connection', function (socket) {
+  console.log('유저접속됨')
+  socket.on('user-send', function (data) {
+    console.log(data)
+  })
+})
 
 // 홈페이지
 app.get('/', function (req, res) {
