@@ -181,14 +181,24 @@ app.get('/message/:id', 로그인했니, function (요청, 응답) {
     'Cache-Control': 'no-cache',
   })
   db.collection('message')
-    .find({ parent: '요청.params.id' })
+    .find({ parent: 요청.params.id })
     .toArray()
     .then((결과) => {
       // test 이름으로 데이터를 전송할게요~라는 뜻 \n == enter키
       응답.write('event: test\n') //event: 보낼데이터이름\n
-      응답.write('data:' + JSON.stringify(결과) + '\n\n')
+      응답.write('data: ' + JSON.stringify(결과) + '\n\n')
       // 응답.write('data: 안녕하세요\n\n') //data: 보낼데이터\n\n(\n 두개 정도 쓰는게 안정적이다.)
     })
+  // Change Stream 설정법
+  const pipeline = [{ $match: { 'fullDocument.parent': 요청.params.id } }]
+  const collection = db.collection('message')
+  const changeStream = collection.watch(pipeline) // .watch() 붙이면 실시간 감시해준다.
+  // 해당 컬렉션에 변동생기면 여기 코드 실행
+  changeStream.on('change', (result) => {
+    // console.log(result.fullDocument)
+    응답.write('event: test\n')
+    응답.write('data: ' + JSON.stringify([result.fullDocument]) + '\n\n')
+  })
 })
 
 passport.use(
