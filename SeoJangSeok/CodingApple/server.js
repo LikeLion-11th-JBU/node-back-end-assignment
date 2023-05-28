@@ -172,6 +172,24 @@ app.post('/message', 로그인했니, function (요청, 응답) {
       응답.send('DB저장성공')
     })
 })
+// 서버와 유저간 실시간 소통채널 열기
+app.get('/message/:id', 로그인했니, function (요청, 응답) {
+  // Header를 이렇게 수정해주세요~
+  응답.writeHead(200, {
+    Connection: 'keep-alive',
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+  })
+  db.collection('message')
+    .find({ parent: '요청.params.id' })
+    .toArray()
+    .then((결과) => {
+      // test 이름으로 데이터를 전송할게요~라는 뜻 \n == enter키
+      응답.write('event: test\n') //event: 보낼데이터이름\n
+      응답.write('data:' + JSON.stringify(결과) + '\n\n')
+      // 응답.write('data: 안녕하세요\n\n') //data: 보낼데이터\n\n(\n 두개 정도 쓰는게 안정적이다.)
+    })
+})
 
 passport.use(
   new localStrategy(

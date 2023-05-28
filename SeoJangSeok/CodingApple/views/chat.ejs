@@ -55,8 +55,16 @@
 
     <script>
       var 지금누른채팅방id
+      var eventSource //일단 변수
+      // 채팅방 하나 누르면
       $('.list-group-item').click(function () {
         지금누른채팅방id = this.dataset.id
+        // 프론트엔드에서 실시간 소통채널 여는법
+        eventSource = new EventSource('/message/ + 지금누른채팅방id') // 실시간 소통채널 입장완료
+        // 유저가 데이터 수신은 new EventSource('/경로') 그리고 이벤트리스너 부착.
+        eventSource.addEventListener('test', function (e) {
+          console.log(JSON.parse(e.data))
+        })
       })
 
       $('#send').click(function () {
