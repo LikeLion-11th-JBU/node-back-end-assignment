@@ -1,16 +1,18 @@
-const express = require('express');
-const app = express();
-const port = 3000;
+var express = require('express');
+var app = express();
+var morgan = require('morgan');
+var users = [
+  { id: 1, name: 'alice' },
+  { id: 2, name: 'bek' },
+  { id: 3, name: 'chris' },
+];
+
+app.use(morgan('dev'));
 
 app.get('/users', function (req, res) {
   res.send('user list');
 });
 
-app.post('/users', function (req, res) {
-  //유저 만들기..
-  res.send(user);
-});
-
-app.listen(port, function () {
-  console.log(`Example app listening on port ${port}`);
+app.listen(3000, function () {
+  console.log(`Example app listening on port 3000!`);
 });
