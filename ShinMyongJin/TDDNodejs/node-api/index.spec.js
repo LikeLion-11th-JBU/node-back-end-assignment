@@ -60,3 +60,25 @@ describe('GET /users/1', () => {
     });
   });
 });
+describe('POST /users', () => {
+  describe('성공시 유저 객체를 반환한다', () => {
+    let name = 'daniel',
+      body;
+    before((done) => {
+      request(app)
+        .post('/users')
+        .send({ name })
+        .expect(201)
+        .end((err, res) => {
+          body = res.body;
+          done();
+        });
+    });
+    it('생성된 유저 객체를 반환한다', () => {
+      body.should.have.property('id');
+    });
+    it('입력한 name을 반환한다', () => {
+      body.should.have.property('name', name);
+    });
+  });
+});
