@@ -1,3 +1,25 @@
+var swaggerUi = require('swagger-ui-express');
+var swaggerJsDoc = require('swagger-jsdoc');
+const swaggerDefinition = {
+    info :{
+        title : 'swagger_test',
+        version : '1.0.0',
+        description :'Swagger test'
+    },
+    host: 'localhost:8080',
+    basePath : '/',
+    securityDefinitions:{
+        bearerAuth:{
+            type : 'apiKey',
+            name : 'Authorization',
+            in : 'header',
+        },
+    },
+};
+const options = {
+    swaggerDefinition,
+    apis : ['./views/*.ejs'],
+};
 const express = require('express'); //라이브 러리 참고
 const app = express(); // 라이브러리를 이용한 객체 생성
 const MongoClient = require('mongodb').MongoClient;
@@ -12,6 +34,11 @@ require('dotenv').config();
 app.use(methodOverride('_method'));
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended : true}));
+app.get('/swagger.json',(req,res)=>{
+    res.setHeader('Content-Type','application/json');
+    res.send(swaggerSpec);
+});
+app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swaggerSpec));
 //npm install mongodb할 때 강의 버전으로 해야돼..
 var db;
 MongoClient.connect('mongodb+srv://Kchan:1234@codingapple.zlnpnec.mongodb.net/?retryWrites=true&w=majority',{useUnifiedTopology:true}, function(에러, client){
@@ -73,6 +100,7 @@ app.put('/edit',function(req,res){
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
+const { version } = require('os');
 //const multer = require('multer');
 
 app.use(session({secret : '비밀코드',resave : true,saveUninitialized:false}));
