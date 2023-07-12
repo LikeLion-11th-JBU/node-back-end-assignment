@@ -8,7 +8,7 @@
     "sqlite3": "^5.1.6"
   },
   "scripts": {
-    "test": "cross-env NODE_ENV = test mocha api/user/user.spec.js",
+    "test": "cross-env NODE_ENV=test mocha api/user/user.spec.js -w",
     "start": "node bin/www.js"
   },
   "devDependencies": {
