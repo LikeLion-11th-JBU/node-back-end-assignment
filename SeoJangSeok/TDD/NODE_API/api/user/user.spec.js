@@ -1,9 +1,14 @@
+// 테스트 코드
 const app = require('../../index')
 const request = require('supertest')
 const should = require('should')
+const models = require('../../models')
 
-describe('GET /users는', () => {
+describe.only('GET /users는', () => {
   describe('성공시', () => {
+    const users = [{ name: 'alice' }, { name: 'bek' }, { name: 'chris' }]
+    before(() => models.sequelize.sync({ force: true }))
+    before(() => models.User.bulkCreate(users))
     it('유저 객체를 담은 배열로 응답한다', (done) => {
       request(app)
         .get('/users')
@@ -27,6 +32,7 @@ describe('GET /users는', () => {
     })
   })
 })
+
 describe('GET /users/:id', () => {
   describe('성공시', () => {
     it('id가 1인 유저 객체를 반환한다', (done) => {
@@ -109,11 +115,9 @@ describe('PUT /users:id', () => {
     it('name이 없을 경우 400을 응답한다', (done) => {
       request(app).put('/users/1').send({}).expect(400).end(done)
     })
-
     it('없는 유저일 경우 404을 응답한다', (done) => {
       request(app).put('/users/999').send({ name: 'foo' }).expect(404).end(done)
     })
-
     it('이름이 중복일 409을 응답한다', (done) => {
       request(app).put('/users/3').send({ name: 'bek' }).expect(409).end(done)
     })
