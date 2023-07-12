@@ -3,14 +3,17 @@ const express = require('express')
 const app = express()
 const port = 3000
 const morgan = require('morgan')
+const bodyParser = require('body-parser')
 
-const users = [
+let users = [
   { id: 1, name: 'alice' },
   { id: 2, name: 'bek' },
   { id: 3, name: 'chris' },
 ]
 
 app.use(morgan('dev'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/users', function (req, res) {
   req.query.limit = req.query.limit || 10
@@ -36,6 +39,14 @@ app.delete('/users/:id', (req, res) => {
 
   users.filter((user) => user.id !== id)
   res.status(204).end()
+})
+
+app.post('/users', (req, res) => {
+  const name = req.body.name
+  const id = Date.now()
+  const user = { id, name }
+  users.push(user)
+  res.status(201).json(user)
 })
 
 app.listen(port, function () {
