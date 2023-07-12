@@ -1,20 +1,11 @@
-const express = require('express')
-const app = express()
+// express Hello World 예제
+var express = require('express')
+var app = express()
 
-function commonmw(req, res, next) {
-  console.log('commonmw')
-  next(new Error('error ouccered'))
-}
-
-function errormw(err, req, res, next) {
-  console.log(err.message)
-  // 에러를 처리하거나
-  next()
-}
-
-app.use(commonmw)
-app.use(errormw)
+app.get('/', function (req, res) {
+  res.send('Hello World!')
+})
 
 app.listen(3000, function () {
-  console.log('Server is running')
+  console.log('Example app listening on port 3000!')
 })
