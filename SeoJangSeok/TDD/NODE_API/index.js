@@ -1,14 +1,17 @@
-// express Hello World 예제
+// 사용자 목록 조회 API
 var express = require('express')
 var app = express()
+var morgan = require('morgan')
+var users = [
+  { id: 1, name: 'alice' },
+  { id: 2, name: 'bek' },
+  { id: 3, name: 'chris' },
+]
+
+app.use(morgan('dev'))
 
 app.get('/users', function (req, res) {
-  res.send('users list')
-})
-
-app.post('/users', function (req, res) {
-  // create user...
-  res.send(user)
+  res.json('users')
 })
 
 app.listen(3000, function () {
