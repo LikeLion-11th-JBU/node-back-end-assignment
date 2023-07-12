@@ -1,7 +1,15 @@
-const fs = require('fs')
+// 노드의 Hello World 서버 코드
+const http = require('http')
 
-//const data = fs.readFileSync('./data.txt', 'utf8')
+const hostname = '127.0.0.1'
+const port = 3000
 
-const data = fs.readFile('./data.txt', 'utf8', function (err, data) {
-  console.log(data) // This is data file
+const server = http.createServer((req, res) => {
+  res.statusCode = 200
+  res.setHeader('Content-Type', 'text/plain')
+  res.end('Hello World\n')
+})
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`)
 })
