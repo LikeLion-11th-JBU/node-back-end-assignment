@@ -30,6 +30,12 @@ app.get('/users/:id', (req, res) => {
   res.json(user)
 })
 
+app.delete('/users/:id', (req, res) => {
+  const id = parseInt(req.params.id, 10)
+  users.filter((user) => user.id !== id)
+  res.status(204).end()
+})
+
 app.listen(port, function () {
   console.log('Example app listening on port ${port}')
 })
