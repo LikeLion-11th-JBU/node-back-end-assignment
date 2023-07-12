@@ -3,7 +3,6 @@ const app = require('../../index')
 const request = require('supertest')
 const should = require('should')
 const models = require('../../models')
-
 describe('GET /users는', () => {
   const users = [{ name: 'alice' }, { name: 'bek' }, { name: 'chris' }]
   before(() => models.sequelize.sync({ force: true }))
@@ -12,7 +11,24 @@ describe('GET /users는', () => {
     it('유저 객체를 담은 배열로 응답한다', (done) => {
       request(app)
         .get('/users')
-describe('GET /users는', () => {
+        .end((err, res) => {
+          res.body.should.be.instanceOf(Array)
+          done()
+        })
+    })
+    it('최대 limit 갯수만큼 응답한다', (done) => {
+      request(app)
+        .get('/users?limit=2')
+        .end((err, res) => {
+          res.body.should.have.lengthOf(2)
+          done()
+        })
+    })
+  })
+  describe('실패시', () => {
+    it('limit이 숫자형이 아니면 400을 응답한다', (done) => {
+      request(app).get('/users?limit=two').expect(400).end(done)
+    })
   })
 })
 describe('GET /users/:id', () => {
@@ -53,7 +69,7 @@ describe('DELETE /users/:id', () => {
     })
   })
 })
-describe.only('POST /users', () => {
+describe('POST /users', () => {
   const users = [{ name: 'alice' }, { name: 'bek' }, { name: 'chris' }]
   before(() => models.sequelize.sync({ force: true }))
   before(() => models.User.bulkCreate(users))
@@ -87,6 +103,9 @@ describe.only('POST /users', () => {
   })
 })
 describe('PUT /users:id', () => {
+  const users = [{ name: 'alice' }, { name: 'bek' }, { name: 'chris' }]
+  before(() => models.sequelize.sync({ force: true }))
+  before(() => models.User.bulkCreate(users))
   describe('성공시', () => {
     it('변경된 name을 응답한다', (done) => {
       const name = 'chally'
