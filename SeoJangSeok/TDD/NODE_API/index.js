@@ -1,9 +1,8 @@
-// 사용자 목록 조회 API
-const express = require('express')
-const app = express()
-const morgan = require('morgan')
-const bodyParser = require('body-parser')
-const user = require('./api/user')
+var express = require('express')
+var app = express()
+var morgan = require('morgan')
+var bodyParser = require('body-parser')
+var user = require('./api/user')
 
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'))
