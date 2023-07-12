@@ -1,10 +1,5 @@
-//기본 모듈 사용
-const http = require('http') // http 모듈을 불러와서 http 변수에 할당.
+const fs = require('fs')
 
-http.createServer()
+const data = fs.readFileSync('./data.txt', 'utf8')
 
-// 직접 만든 모듈 가져오기
-const math = require('./math')
-
-const result = math.sum(1, 2) // 1+2
-console.log(result) // 3
+console.log(data) // This is data file
