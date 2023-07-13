@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+    <div>채팅방</div>
+    <input id="input1" />
+    <div id="content"></div>
+    <button id="send">서버에 메세지 보내기</button>
+    <button id="room1">채팅방1입장</button>
+    <button id="room1-send">채팅방1에서 메세지보내기</button>
+    <script>
+      var socket = io();
+
+      $('#room1-send').click(function () {
+        socket.emit('room1-send', '하이 채팅1 인간들아');
+      });
+
+      $('#room1').click(function () {
+        socket.emit('joinroom', '채팅방입장시켜줘');
+      });
+
+      $('#send').click(function () {
+        socket.emit('user-send', $('#input1').val());
+      });
+
+      socket.on('broadcast', function (data) {
+        $('#content').append('<div>' + data + '</div>');
+      });
+    </script>
+  </body>
+</html>
